@@ -52,7 +52,6 @@ class BookDAO:
         values = (id,)
 
         cursor.execute(sql, values)
-
         self.db.commit()
         print("delete done")
 
