@@ -12,13 +12,11 @@ def getAll():
 @app.route('/books/<int:id>')
 def findById(id):
     foundBook = bookDao.findByID(id)
-
     return jsonify(foundBook)
 
 #curl  -i -H "Content-Type:application/json" -X POST -d "{\"Title\":\"hello\",\"Author\":\"someone\",\"Price\":123}" http://127.0.0.1:5000/books
 @app.route('/books', methods=['POST'])
 def create():
-    
     if not request.json:
         abort(400)
     # other checking 
@@ -38,13 +36,11 @@ def update(id):
     foundBook = bookDao.findByID(id)
     if not foundBook:
         abort(404)
-    
     if not request.json:
         abort(400)
     reqJson = request.json
     if 'Price' in reqJson and type(reqJson['Price']) is not int:
         abort(400)
-
     if 'Title' in reqJson:
         foundBook['Title'] = reqJson['Title']
     if 'Author' in reqJson:
@@ -54,17 +50,11 @@ def update(id):
     values = (foundBook['Title'],foundBook['Author'],foundBook['Price'],foundBook['id'])
     bookDao.update(values)
     return jsonify(foundBook)
-        
-
-    
 
 @app.route('/books/<int:id>' , methods=['DELETE'])
 def delete(id):
     bookDao.delete(id)
     return jsonify({"done":True})
-
-
-
 
 if __name__ == '__main__' :
     app.run(debug= True)
